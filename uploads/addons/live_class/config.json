@@ -1,0 +1,88 @@
+{
+    "name" : "Live Class",
+    "unique_identifier" : "live-class",
+    "version" : "1.1",
+    "directories" :
+    [
+        {
+            "name" : "application/views/backend/teacher/live_class"
+        },
+        {
+            "name" : "application/views/backend/student/live_class"
+        },
+        {
+            "name" : "uploads/live_class"
+        },
+        {
+            "name" : "assets/global/zoom"
+        }
+    ],
+    "sql_file"  : "updater.php",
+    "files"     :
+    [
+        {
+            "root_directory"    : "uploads/addons/live_class/application/controllers/addons/Live_class.php",
+            "update_directory"  : "application/controllers/addons/Live_class.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/models/addons/Live_class_model.php",
+            "update_directory"  : "application/models/addons/Live_class_model.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/teacher/live_class/create.php",
+            "update_directory"  : "application/views/backend/teacher/live_class/create.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/teacher/live_class/edit.php",
+            "update_directory"  : "application/views/backend/teacher/live_class/edit.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/teacher/live_class/index.php",
+            "update_directory"  : "application/views/backend/teacher/live_class/index.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/teacher/live_class/list.php",
+            "update_directory"  : "application/views/backend/teacher/live_class/list.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/teacher/live_class/mail.php",
+            "update_directory"  : "application/views/backend/teacher/live_class/mail.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/teacher/live_class/meeting.php",
+            "update_directory"  : "application/views/backend/teacher/live_class/meeting.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/teacher/live_class/settings.php",
+            "update_directory"  : "application/views/backend/teacher/live_class/settings.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/student/live_class/index.php",
+            "update_directory"  : "application/views/backend/student/live_class/index.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/student/live_class/list.php",
+            "update_directory"  : "application/views/backend/student/live_class/list.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/application/views/backend/student/live_class/meeting.php",
+            "update_directory"  : "application/views/backend/student/live_class/meeting.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/assets/global/zoom/api_key.png",
+            "update_directory"  : "assets/global/zoom/api_key.png"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/assets/global/zoom/choosen_app.png",
+            "update_directory"  : "assets/global/zoom/choosen_app.png"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/assets/global/zoom/configure_app.png",
+            "update_directory"  : "assets/global/zoom/configure_app.png"
+        },
+        {
+            "root_directory"    : "uploads/addons/live_class/assets/global/zoom/signin.png",
+            "update_directory"  : "assets/global/zoom/signin.png"
+        }
+    ]
+}

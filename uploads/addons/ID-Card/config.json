@@ -1,0 +1,29 @@
+{
+    "name" : "ID Card Generator",
+    "unique_identifier" : "id-card",
+    "version" : "1.0",
+    "directories" :
+    [
+        
+    ],
+    "sql_file"  : "updater.php",
+    "files"     :
+    [
+        {
+            "root_directory"    : "uploads/addons/id-card/views/list.php",
+            "update_directory"  : "application/views/backend/superadmin/student/list.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/id-card/views/id_card.php",
+            "update_directory"  : "application/views/backend/superadmin/student/id_card.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/id-card/views/list.php",
+            "update_directory"  : "application/views/backend/admin/student/list.php"
+        },
+        {
+            "root_directory"    : "uploads/addons/id-card/views/id_card.php",
+            "update_directory"  : "application/views/backend/admin/student/id_card.php"
+        }
+    ]
+}
