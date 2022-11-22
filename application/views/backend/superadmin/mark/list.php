@@ -106,8 +106,9 @@ elseif($subject_id == "all"){
         </thead> 
         <tbody>   
         <?php
-            $count = 1; $val="";
+            $count = 1; 
             foreach($marks as $mark):
+                $val='';
                 $student = $this->db->get_where('students', array('id' => $mark['student_id']))->row_array();?>
                 <tr>
                     <td style="left:0px;position: sticky;width:10px;"><?php echo $count++; ?></td>
@@ -118,28 +119,30 @@ elseif($subject_id == "all"){
                       
                   $mid = $this->db->get_where('marks', array('subject_id' => $sub['id'],'student_id' => $mark['student_id'], 'class_id' => $class_id,'section_id' => $section_id,'school_id' => school_id(),'session' => active_session(), 'exam_id'=>$exam_id))->row('id');
                       
+                  $cv = $this->db->get_where('marks', array('subject_id' => $sub['id'],'student_id' => $mark['student_id'], 'class_id' => $class_id,'section_id' => $section_id,'school_id' => school_id(),'session' => active_session(), 'exam_id'=>$exam_id))->row('coef');
+                      
                     $bids=$this->db->get_where('mark_behavior_option', array('mark_behavior_id' => $bid))->result_array();
                       
                     $nbids=$this->db->get_where('mark_behavior_option', array('mark_behavior_id' => $bid))->num_rows();
                   foreach($bids as $bids){
                   
-                  if($mid >0){
+                  //if($mid >0){
                       $val=($this->db->get_where('mark_option', array('behavior_option_id' => $bids['id'], 'mark_id'=>$mid))->row()->mark_obtained * 100)/$bids['percentage'];
-                  }
+                  //}
                   
-                    if (($val==0) &&($mark['coef'] ==0)){$val='';}?>
+                  if (($val==0) &&($cv ==0)){$val='';}?>
                     <td style="min-width:150px; text-align:center;"> 
                         <input class="form-control" type="number" id="mark-<?php echo $mark['student_id']; ?>-<?php echo $sub['id']; ?>-<?php echo $bids['id']; ?>" name="mark" placeholder="<?php echo get_phrase('between_0_and_20'); ?>" min="0" max="20" step="0.001" value="<?php echo $val; ?>" required onchange="hide_buttons(<?php echo $mark['student_id']; ?>, <?php echo $bids['id']; ?>, <?php echo $sub['id']; ?>)">
-                    <small style="display:none; color:red;" id="stu<?php echo $mark['student_id']; ?>-<?php echo $bids['id']; ?>" ><?php echo get_phrase('between_0_and_20'); ?></small>
+                    <small style="display:none; color:red;" id="stu<?php echo $mark['student_id']; ?>-<?php echo $sub['id']; ?>-<?php echo $bids['id']; ?>" ><?php echo get_phrase('between_0_and_20'); ?></small>
                     </td> 
                     <?php } ?>
                     <?php } ?>
                     
-                     <td style="right:150px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20;width:40px; " id="tm-<?php echo $mark['student_id']; ?>" style="background-color: #ccc;"> <?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_mark; ?></td>
+                     <td style="right:150px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20;width:40px; " style="background-color: #ccc;"> <span  id="tm-<?php echo $mark['student_id']; ?>"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_mark; ?></span></td>
                     
-                    <td style="right:70px; position: sticky;z-index:20; width:40px;background-color:#fff;" id="tc-<?php echo $mark['student_id']; ?>"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_coef;?></td>
+                    <td style="right:70px; position: sticky;z-index:20; width:40px;background-color:#fff;" ><span id="tc-<?php echo $mark['student_id']; ?>"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_coef;?></span></td>
                     
-                    <td style="right:0px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20; width:30px; " id="av-<?php echo $mark['student_id']; ?>" style="background-color: #ccc;"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->average;?></td>
+                    <td style="right:0px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20; width:30px; " style="background-color: #ccc;"><span id="av-<?php echo $mark['student_id']; ?>"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->average;?></span></td>
                
                 
                 </tr>
@@ -221,28 +224,24 @@ elseif($subject_id == "all"){
     function hide_buttons(student, option, subject_id) {
         mark = $('#mark-' + student + '-' + subject_id + '-' + option).val();
         
-        toastr.warning(student);
-             
-        toastr.warning(option);
-        toastr.error(subject_id);
         if((mark > 20) ||(mark < 0)){
             
              toastr.warning('<?php echo get_phrase('mark_must_be_positive'); ?>');
              toastr.warning('<?php echo get_phrase('mark_must_be_between_0_and_20'); ?>');
              toastr.error('<?php echo get_phrase('impossible_to_save'); ?>');
-             $('#stu' + student+ '-' + option).show();
+             $('#stu' + student+ '-'+ subject_id+ '-' + option).show();
              $('#stu' + student).hide();
         }else{ 
              toastr.success('<?php echo get_phrase('mark_has_been_updated_successfully'); ?>');
-             $('#stu' + student+ '-' + option).hide();
+             $('#stu' + student+ '-'+ subject_id+ '-' + option).hide();
              $('#stu' + student).show();
             
             var class_id = '<?php echo $class_id; ?>';
             var section_id = '<?php echo $section_id; ?>';
             var exam_id = '<?php echo $exam_id; ?>';
-            var mark = $('#mark-' + student + '-' + subject_id + '-' + option).val();   
+            var mark = mark; 
 
-            if(subject_id != ""){
+//            if(subject_id != ""){ 
                 $.ajax({
                     type : 'POST',
                     url : '<?php echo route('mark/mark_update'); ?>',
@@ -253,10 +252,7 @@ elseif($subject_id == "all"){
                         filtermarkt(student, section_id,exam_id,student);
                     }
                 });
-            }else{
-                toastr.error('<?php echo get_phrase('required_mark_field'); ?>');
-            }
-        }
+ //       }
     }
     
     function filtermark(student, option){
