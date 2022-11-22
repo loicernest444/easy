@@ -221,6 +221,10 @@ elseif($subject_id == "all"){
     function hide_buttons(student, option, subject_id) {
         mark = $('#mark-' + student + '-' + subject_id + '-' + option).val();
         
+        toastr.warning(student);
+             
+        toastr.warning(option);
+        toastr.error(subject_id);
         if((mark > 20) ||(mark < 0)){
             
              toastr.warning('<?php echo get_phrase('mark_must_be_positive'); ?>');
