@@ -1131,5 +1131,7 @@
     "evaluation": "Evaluation",
     "please_select_all_or_specific_subject": "Please select all or specific subject",
     "trimestre": "Trimestre",
-    "header_line_has_been_deleted_successfully": "Header line has been deleted successfully"
+    "header_line_has_been_deleted_successfully": "Header line has been deleted successfully",
+    "student_image_updated_successfully": "Student image updated successfully",
+    "student_has_been_updated_successfully": "Student has been updated successfully"
 }

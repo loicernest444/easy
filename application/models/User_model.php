@@ -885,6 +885,17 @@ class User_model extends CI_Model {
 		return json_encode($response);
 	}
     
+	public function student_updatei($student_id = '', $user_id = ''){
+        
+        move_uploaded_file($_FILES['student_image'.$student_id]['tmp_name'], 'uploads/users/'.$user_id.'.jpg');
+
+        $response = array(
+            'status' => true,
+            'notification' => get_phrase('student_image_updated_successfully')
+        );
+		return json_encode($response);
+	}
+
 	public function student_update($student_id = '', $user_id = ''){
         $user_id = $this->db->get_where('students', array('id' => $student_id))->row()->user_id;
 		$enroll_data['class_id'] = html_escape($this->input->post('class_id'));

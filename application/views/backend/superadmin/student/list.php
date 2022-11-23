@@ -99,21 +99,20 @@ if($action ==1){
       <tr id="stud<?php echo $enroll['student_id'];?>">
         <td><?php echo $c++; ?></td>  
         <td>
-            <form method="POST" class="col-12 d-block ajaxForm<?php echo $enroll['student_id'];?>" action="<?php echo route('student/updated/'.$enroll['student_id'].'/'.$student['user_id']); ?>" id = "student_update_form" enctype="multipart/form-data">
+            <form method="POST" class="col-12 d-block ajaxForm<?php echo $enroll['student_id'];?>" action="<?php echo route('student/updatedi/'.$enroll['student_id'].'/'.$student['user_id']); ?>" id = "student_update_form" enctype="multipart/form-data">
             <div class="col-xl-6">
                   <div class="wrapper-image-preview<?php echo $enroll['student_id'];?>" style="margin-left: -16px;">
                     <div class="box" style="width: 250px;">
                       <div class="js--image-preview" style="background-image: url(<?php echo $this->user_model->get_user_image($student['user_id']); ?>); background-color: #F5F5F5;"></div>
                       <div class="upload-options">
                           
-                        <input type="file"  class="form-control" name="student_image<?php echo $enroll['student_id'];?>" accept="image/*" onchange="singleupdatei(<?php echo $enroll['student_id'];?>)">
+                        <input type="file"  class="form-control" name="student_image<?php echo $enroll['student_id'];?>" accept="image/*" onchange="form.submit()">
                           
                       </div>
                     </div>
                   </div>
             </div>
             </form>
-            <input id="student_image<?php echo $enroll['student_id'];?>" type="file" class="form-control" id="notice_photo" name = "notice_photo">
         </td>
         <td><?php echo $this->user_model->get_user_details($student['user_id'], 'name'); ?>
             <input type="hidden" id="user<?php echo $enroll['student_id'];?>" name="user<?php echo $enroll['student_id'];?>" class="form-control"  value="<?php echo $student['user_id']; ?>" >
@@ -172,6 +171,28 @@ if($action ==1){
 
 <?php } ?>
 <script type="text/javascript">
+       
+var form;
+$('.ajaxForm').submit(function(e) {
+  form = $(this);
+  ajaxSubmit(e, form);
+});
+
+var refreshForm = function () {
+    form.trigger("reset");
+}
+
+function filtermark(){
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo route('get_t_average') ?>/'+class_id+'/'+section_id+'/'+exam_id+'/'+student,
+            success: function(response){
+                $('#av-' + student).html(response);
+            }
+        });
+    } 
+</script>
+<script type="text/javascript">
   initDataTable('basic-datatable');
     
  function singleupdate(student) {
@@ -196,11 +217,7 @@ if($action ==1){
                     url : '<?php echo route('student/singleupdate'); ?>',
                     data : {student_id : student,user : user, class_id : class_id, section_id : section_id, student_image : student_image, name : name, gender : gender, birthday : birthday,birthday : birthday,region : region,dep_id : dep_id,nat : nat,email : email, phone : phone, address : address, place : place},
                     success : function(response){
-                        
-                        $(".ajaxForm"+ student).submit(function(e) {
-                            form = $(this);
-                            ajaxSubmit(e, form, refreshForm);
-                        });
+                        toastr.success('<?php echo get_phrase('student_has_been_updated_successfully'); ?>');
                     }
                 });
     }

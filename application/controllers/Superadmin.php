@@ -897,6 +897,11 @@ class Superadmin extends CI_Controller {
       echo $response;
     }
       
+    if($param1 == 'updatedi'){
+      $response = $this->user_model->student_updatei($param2, $param3);
+      echo $response;
+    }
+      
     //updated to database
     if($param1 == 'singleupdate'){
       $response = $this->user_model->student_singleupdate($param2, $param3);
