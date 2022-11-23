@@ -105,13 +105,15 @@ if($action ==1){
                     <div class="box" style="width: 250px;">
                       <div class="js--image-preview" style="background-image: url(<?php echo $this->user_model->get_user_image($student['user_id']); ?>); background-color: #F5F5F5;"></div>
                       <div class="upload-options">
-                        <label for="student_image<?php echo $enroll['student_id'];?>" class="btn"> <i class="mdi mdi-camera"></i> <?php echo get_phrase('upload_another_image'); ?> </label>
-                        <input id="student_image<?php echo $enroll['student_id'];?>" style="visibility:hidden;" type="file" class="image-upload" name="student_image<?php echo $enroll['student_id'];?>" accept="image/*" onchange="singleupdate(<?php echo $enroll['student_id'];?>)">
+                          
+                        <input type="file"  class="form-control" name="student_image<?php echo $enroll['student_id'];?>" accept="image/*" onchange="singleupdatei(<?php echo $enroll['student_id'];?>)">
+                          
                       </div>
                     </div>
                   </div>
             </div>
             </form>
+            <input id="student_image<?php echo $enroll['student_id'];?>" type="file" class="form-control" id="notice_photo" name = "notice_photo">
         </td>
         <td><?php echo $this->user_model->get_user_details($student['user_id'], 'name'); ?>
             <input type="hidden" id="user<?php echo $enroll['student_id'];?>" name="user<?php echo $enroll['student_id'];?>" class="form-control"  value="<?php echo $student['user_id']; ?>" >
@@ -165,7 +167,7 @@ if($action ==1){
         </td>
       </tr> 
     <?php } ?>
-  </tbody>
+  </tbody> 
 </table>
 
 <?php } ?>
