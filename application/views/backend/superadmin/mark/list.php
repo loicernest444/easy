@@ -241,7 +241,7 @@ elseif($subject_id == "all"){
             var exam_id = '<?php echo $exam_id; ?>';
             var mark = mark; 
 
-//            if(subject_id != ""){ 
+           if(subject_id != ""){ 
                 $.ajax({
                     type : 'POST',
                     url : '<?php echo route('mark/mark_update'); ?>',
@@ -252,7 +252,7 @@ elseif($subject_id == "all"){
                         filtermarkt(student, section_id,exam_id,student);
                     }
                 });
- //       }
+        }
     }
     
     function filtermark(student, option){
