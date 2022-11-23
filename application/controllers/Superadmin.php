@@ -1105,7 +1105,7 @@ public function get_t_mark($class_id, $section_id, $exam_id, $student_id) {
     echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $student_id)->row()->total_mark;
 }  
 public function get_t_average($class_id, $section_id, $exam_id, $student_id) {
-    echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $student_id)->row()->average;
+    echo ROUND($this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $student_id)->row()->average,3);
 }  
     
 public function get_marks($class, $section, $sub, $exam, $behavior) {

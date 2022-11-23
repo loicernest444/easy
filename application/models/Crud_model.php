@@ -1556,19 +1556,20 @@ class Crud_model extends CI_Model {
     
     public function get_col1_image($user_id) {
 		if (file_exists('uploads/column/col1/'.$user_id.'.png'))
-		return base_url('uploads/column/col1/'.$user_id.'.png');
+		return base_url().'uploads/column/col1/'.$user_id.'.png';
 	}
+    
     public function get_col2_image($user_id) {
 		if (file_exists('uploads/column/col2/'.$user_id.'.png'))
-		return base_url('uploads/column/col2/'.$user_id.'.png');
+		return base_url().'uploads/column/col2/'.$user_id.'.png';
 	}
     public function get_col3_image($user_id) {
 		if (file_exists('uploads/column/col3/'.$user_id.'.png'))
-		return base_url('uploads/column/col3/'.$user_id.'.png');
+		return base_url().'uploads/column/col3/'.$user_id.'.png';
 	}
     public function get_col4_image($user_id) {
 		if (file_exists('uploads/column/col4/'.$user_id.'.png'))
-		return base_url('uploads/column/col4/'.$user_id.'.png');
+		return base_url().'uploads/column/col4/'.$user_id.'.png';
 	}
 	//START header section
 	public function header_create()

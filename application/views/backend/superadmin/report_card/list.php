@@ -47,6 +47,8 @@ $nen = $this->crud_model->get_stu_average($class_id, $section_id)->num_rows();
               $rang = "1er";
           }elseif(($rang ==1 ||$rang ==21 ||$rang ==31 ||$rang ==41 ||$rang ==61 ) && (get_settings('language') =='english')){
               $rang = $rang.'st';
+          }elseif(($rang > 1) && (get_settings('language') =='french')){
+              $rang = $rang.'ème';
           }elseif(($rang ==2 ||$rang ==22 ||$rang ==32 ||$rang ==42 ||$rang ==62 ) && (get_settings('language') =='english')){
               $rang = $rang.'nd';
           }elseif(($rang ==3 ||$rang ==23 ||$rang ==33 ||$rang ==43 ||$rang ==63 ) && (get_settings('language') =='english')){

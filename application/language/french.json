@@ -1129,5 +1129,7 @@
     "select_student_picture": "Select student picture",
     "upload_another_image": "Upload another image",
     "evaluation": "Evaluation",
-    "please_select_all_or_specific_subject": "Please select all or specific subject"
+    "please_select_all_or_specific_subject": "Please select all or specific subject",
+    "trimestre": "Trimestre",
+    "header_line_has_been_deleted_successfully": "Header line has been deleted successfully"
 }

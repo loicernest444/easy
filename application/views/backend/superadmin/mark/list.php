@@ -14,7 +14,7 @@ $marks = $this->crud_model->get_marks($class_id, $section_id, $subject_id, $exam
 if($subject_id >0){
     
 }
-?>
+?> 
 
    <?php if($subject_id > 0){ 
    $marks = $this->crud_model->get_marks($class_id, $section_id, $subject_id, $exam_id)->result_array(); ?>
@@ -138,11 +138,11 @@ elseif($subject_id == "all"){
                     <?php } ?>
                     <?php } ?>
                     
-                     <td style="right:150px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20;width:40px; " style="background-color: #ccc;"> <span  id="tm-<?php echo $mark['student_id']; ?>"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_mark; ?></span></td>
+                     <td style="right:150px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20;width:40px; " style="background-color: #ccc;"> <span  id="tm-<?php echo $mark['student_id']; ?>"><?php echo ROUND($this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_mark,3); ?></span></td>
                     
-                    <td style="right:70px; position: sticky;z-index:20; width:40px;background-color:#fff;" ><span id="tc-<?php echo $mark['student_id']; ?>"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_coef;?></span></td>
+                    <td style="right:70px; position: sticky;z-index:20; width:40px;background-color:#fff;" ><span id="tc1-<?php echo $mark['student_id']; ?>"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_coef;?></span></td>
                     
-                    <td style="right:0px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20; width:30px; " style="background-color: #ccc;"><span id="av-<?php echo $mark['student_id']; ?>"><?php echo $this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->average;?></span></td>
+                    <td style="right:0px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20; width:30px; " style="background-color: #ccc;"><span id="av-<?php echo $mark['student_id']; ?>"><?php echo ROUND($this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->average,3);?></span></td>
                
                 
                 </tr>
@@ -239,20 +239,20 @@ elseif($subject_id == "all"){
             var class_id = '<?php echo $class_id; ?>';
             var section_id = '<?php echo $section_id; ?>';
             var exam_id = '<?php echo $exam_id; ?>';
+            var subject_id = subject_id; 
             var mark = mark; 
 
-           if(subject_id != ""){ 
                 $.ajax({
                     type : 'POST',
                     url : '<?php echo route('mark/mark_update'); ?>',
-                    data : {student_id : student, class_id : class_id, section_id : section_id, subject_id : subject_id, exam_id : exam_id, mark : mark, comment : comment, behavior : option},
+                    data : {student_id : student, class_id : class_id, section_id : section_id, subject_id : subject_id, exam_id : exam_id, mark : mark, behavior : option},
                     success : function(response){
-                        filtermarkc(student, section_id,exam_id,student);
-                        filtermarka(student, section_id,exam_id,student);
-                        filtermarkt(student, section_id,exam_id,student);
+                        filtermarkc(class_id, section_id,exam_id,student);
+                        filtermarka(class_id, section_id,exam_id,student);
+                        filtermarkt(class_id, section_id,exam_id,student);
                     }
                 });
-        }
+    }
     }
     
     function filtermark(student, option){
@@ -269,16 +269,16 @@ elseif($subject_id == "all"){
         });
     }
     
-    function filtermarkc(student, section_id,exam_id,student){
+    function filtermarkc(class_id, section_id,exam_id,student){
         $.ajax({
             type: 'POST',
             url: '<?php echo route('get_t_coef') ?>/'+class_id+'/'+section_id+'/'+exam_id+'/'+student,
             success: function(response){
-                $('#tc-' + student).html(response);
+                $('#tc1-' + student).html(response);
             }
         });
     } 
-    function filtermarka(student, section_id,exam_id,student){
+    function filtermarka(class_id, section_id,exam_id,student){
         $.ajax({
             type: 'POST',
             url: '<?php echo route('get_t_average') ?>/'+class_id+'/'+section_id+'/'+exam_id+'/'+student,
@@ -287,7 +287,7 @@ elseif($subject_id == "all"){
             }
         });
     } 
-    function filtermarkc(student, section_id,exam_id,student){
+    function filtermarkt(class_id, section_id,exam_id,student){
         $.ajax({
             type: 'POST',
             url: '<?php echo route('get_t_mark') ?>/'+class_id+'/'+section_id+'/'+exam_id+'/'+student,
