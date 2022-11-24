@@ -30,7 +30,7 @@ if($subject_id >0){
                   foreach($bidss as $bidss){?>
                     <th><?php echo $bidss['name']; ?>
 <!--                <input class="form-control" type="number" id="markm-<?php echo $bidss['id']; ?>" name="mark" min="0" step="0.001" value="<?php echo $val; ?>" required onchange="update_button(<?php echo $bidss['id']; ?>)">-->
-                </th>
+                </th> 
                   <?php } ?>
                 <th><?php echo get_phrase('final_mark'); ?></th>
                 <th><?php echo get_phrase('justification'); ?></th>
@@ -108,34 +108,51 @@ elseif($subject_id == "all"){
         <?php
             $count = 1; 
             foreach($marks as $mark):
-                $val='';
+                $val=''; 
                 $student = $this->db->get_where('students', array('id' => $mark['student_id']))->row_array();?>
                 <tr>
                     <td style="left:0px;position: sticky;width:10px;"><?php echo $count++; ?></td>
                     <td style="left:0px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20; "><?php echo $this->user_model->get_user_details($student['user_id'], 'name'); ?></td>
                     <?php 
                   foreach($subs as $sub){ 
+                  
                   $bid=$this->db->get_where('subjects', array('id' => $sub['id']))->row('behavior');
                       
                   $mid = $this->db->get_where('marks', array('subject_id' => $sub['id'],'student_id' => $mark['student_id'], 'class_id' => $class_id,'section_id' => $section_id,'school_id' => school_id(),'session' => active_session(), 'exam_id'=>$exam_id))->row('id');
                       
                   $cv = $this->db->get_where('marks', array('subject_id' => $sub['id'],'student_id' => $mark['student_id'], 'class_id' => $class_id,'section_id' => $section_id,'school_id' => school_id(),'session' => active_session(), 'exam_id'=>$exam_id))->row('coef');
                       
+                  $com = $this->db->get_where('marks', array('subject_id' => $sub['id'],'student_id' => $mark['student_id'], 'class_id' => $class_id,'section_id' => $section_id,'school_id' => school_id(),'session' => active_session(), 'exam_id'=>$exam_id))->row('comment');
+                      
                     $bids=$this->db->get_where('mark_behavior_option', array('mark_behavior_id' => $bid))->result_array();
                       
                     $nbids=$this->db->get_where('mark_behavior_option', array('mark_behavior_id' => $bid))->num_rows();
-                  foreach($bids as $bids){
-                  
-                  //if($mid >0){
-                      $val=($this->db->get_where('mark_option', array('behavior_option_id' => $bids['id'], 'mark_id'=>$mid))->row()->mark_obtained * 100)/$bids['percentage'];
-                  //}
-                  
-                  if (($val==0) &&($cv ==0)){$val='';}?>
+                  ?>
                     <td style="min-width:150px; text-align:center;"> 
+                          
+                    <?php foreach($bids as $bids){ 
+                        
+                      $val=($this->db->get_where('mark_option', array('behavior_option_id' => $bids['id'], 'mark_id'=>$mid))->row()->mark_obtained * 100)/$bids['percentage'];
+                  
+                      if(($val==0) &&($cv ==0)){$val='';}?>
                         <input class="form-control" type="number" id="mark-<?php echo $mark['student_id']; ?>-<?php echo $sub['id']; ?>-<?php echo $bids['id']; ?>" name="mark" placeholder="<?php echo get_phrase('between_0_and_20'); ?>" min="0" max="20" step="0.001" value="<?php echo $val; ?>" required onchange="hide_buttons(<?php echo $mark['student_id']; ?>, <?php echo $bids['id']; ?>, <?php echo $sub['id']; ?>)">
+                        
+                        <?php } ?>
+                        
                     <small style="display:none; color:red;" id="stu<?php echo $mark['student_id']; ?>-<?php echo $sub['id']; ?>-<?php echo $bids['id']; ?>" ><?php echo get_phrase('between_0_and_20'); ?></small>
+                        <select id="comment-<?php echo $mark['student_id']; ?>-<?php echo $sub['id']; ?>-<?php echo $bids['id']; ?>" name="comment-<?php echo $mark['student_id']; ?>" class="form-control select2" data-toggle = "select2" required  onchange="hide_buttons(<?php echo $mark['student_id']; ?>, <?php echo $bids['id']; ?>, <?php echo $sub['id']; ?>)">
+                            
+                            <option value=""> </option>
+                            
+                            <option value="2"<?php if ($com ==2)echo 'selected';?>><?php echo get_phrase('was_present');?></option>
+
+                            <option value="0"<?php if ($com ==0)echo 'selected';?>><?php echo get_phrase('not_justified_absence');?></option>
+                            
+                            <option value="1"<?php if ($com ==1)echo 'selected';?>><?php echo get_phrase('justified_absence');?>/<?php echo get_phrase('not_applicable');?></option>
+
+                        </select> 
+                        
                     </td> 
-                    <?php } ?>
                     <?php } ?>
                     
                      <td style="right:150px; position: sticky; background-color:#6c757d;color:#fff; font-style:bold;z-index:20;width:40px; " style="background-color: #ccc;"> <span  id="tm-<?php echo $mark['student_id']; ?>"><?php echo ROUND($this->crud_model->get_subdiv_average($class_id, $section_id, $exam_id, $mark['student_id'])->row()->total_mark,3); ?></span></td>
@@ -242,10 +259,11 @@ elseif($subject_id == "all"){
             var subject_id = subject_id; 
             var mark = mark; 
 
+            var comment = $('#comment-' + student + '-'+ subject_id+ '-' + option).val();
                 $.ajax({
                     type : 'POST',
                     url : '<?php echo route('mark/mark_update'); ?>',
-                    data : {student_id : student, class_id : class_id, section_id : section_id, subject_id : subject_id, exam_id : exam_id, mark : mark, behavior : option},
+                    data : {student_id : student, class_id : class_id, section_id : section_id, subject_id : subject_id, exam_id : exam_id, mark : mark, comment : comment, behavior : option},
                     success : function(response){
                         filtermarkc(class_id, section_id,exam_id,student);
                         filtermarka(class_id, section_id,exam_id,student);
