@@ -170,7 +170,7 @@
         <h4 class="header-title"><?php echo get_phrase('system_logo') ;?></h4>
         <form method="POST" class="col-12 systemLogoAjaxForm" action="<?php echo route('system_settings/logo_update') ;?>" id = "system_settings" enctype="multipart/form-data">
 
-          <div class="row justify-content-center"> 
+          <div class="row justify-content-center">
             <div class="col-xl-6">
                 <div class="col-md-12 custom-file-upload">
               <?php echo get_phrase('regular_logo'); ?>

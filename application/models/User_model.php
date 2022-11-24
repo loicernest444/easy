@@ -843,6 +843,8 @@ class User_model extends CI_Model {
 		$user_data['address'] = html_escape($this->input->post('address'));
 		$user_data['phone'] = html_escape($this->input->post('phone'));
         
+		move_uploaded_file($_FILES['student_image']['tmp_name'], 'uploads/users/'.$user_id.'.jpg');
+        
 		// Check Duplication
         if ($user_data['email'] != ''){
 		$duplication_status = $this->check_duplication('on_update', $user_data['email'], $user_id);
@@ -853,9 +855,6 @@ class User_model extends CI_Model {
 
 			$this->db->where('id', $user_id);
 			$this->db->update('users', $user_data);
-
-			move_uploaded_file($_FILES['student_image']['tmp_name'], 'uploads/users/'.$user_id.'.jpg');
-
 			$response = array(
 				'status' => true,
 				'notification' => get_phrase('student_updated_successfully')
@@ -873,8 +872,6 @@ class User_model extends CI_Model {
 
 			$this->db->where('id', $user_id);
 			$this->db->update('users', $user_data);
-
-			move_uploaded_file($_FILES['student_image']['tmp_name'], 'uploads/users/'.$user_id.'.jpg');
 
 			$response = array(
 				'status' => true,
@@ -895,6 +892,7 @@ class User_model extends CI_Model {
         );
 		return json_encode($response);
 	}
+    
 
 	public function student_update($student_id = '', $user_id = ''){
         $user_id = $this->db->get_where('students', array('id' => $student_id))->row()->user_id;

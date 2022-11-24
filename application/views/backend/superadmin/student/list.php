@@ -106,7 +106,7 @@ if($action ==1){
                       <div class="js--image-preview" style="background-image: url(<?php echo $this->user_model->get_user_image($student['user_id']); ?>); background-color: #F5F5F5;"></div>
                       <div class="upload-options">
                           
-                        <input type="file"  class="form-control" name="student_image<?php echo $enroll['student_id'];?>" accept="image/*" onchange="form.submit()">
+                        <input type="file"  class="form-control" name="student_image<?php echo $enroll['student_id'];?>" id="student_image<?php echo $enroll['student_id'];?>" accept="image/*" onchange="form.submit()">
                           
                       </div>
                     </div>
@@ -157,11 +157,9 @@ if($action ==1){
                 <input type="text" id="nat<?php echo $enroll['student_id'];?>" name="nat<?php echo $enroll['student_id'];?>" value="<?php echo $this->user_model->get_user_details($student['user_id'], 'nationality'); ?>" class="form-control" placeholder="<?php echo get_phrase('nationality'); ?>" required  onchange="singleupdate(<?php echo $enroll['student_id'];?>)">  
         </td>
         <td>
-            <?php echo $this->user_model->get_user_details($student['user_id'], 'email'); ?>
             <input type="email" class="form-control" id="email<?php echo $enroll['student_id'];?>" name="email<?php echo $enroll['student_id'];?>" id="email<?php echo $enroll['student_id'];?>" value="<?php echo $this->user_model->get_user_details($student['user_id'], 'email'); ?>" placeholder="email"  onchange="singleupdate(<?php echo $enroll['student_id'];?>)"><br>
-            <?php echo $this->user_model->get_user_details($student['user_id'], 'phone'); ?>
             <input type="text" id="phone<?php echo $enroll['student_id'];?>" name="phone<?php echo $enroll['student_id'];?>" class="form-control" value="<?php echo $this->user_model->get_user_details($student['user_id'], 'phone'); ?>" placeholder="phone"  onchange="singleupdate(<?php echo $enroll['student_id'];?>)"><br>
-            <?php echo $this->user_model->get_user_details($student['user_id'], 'address'); ?>
+            
             <textarea class="form-control" id="address<?php echo $enroll['student_id'];?>" rows="1" name = "address<?php echo $enroll['student_id'];?>" placeholder="address"  onchange="singleupdate(<?php echo $enroll['student_id'];?>)"><?php echo $this->user_model->get_user_details($student['user_id'], 'address'); ?></textarea>
         </td>
       </tr> 
@@ -178,10 +176,16 @@ $('.ajaxForm').submit(function(e) {
   ajaxSubmit(e, form);
 });
 
-var refreshForm = function () {
-    form.trigger("reset");
+function reload() {
+  setTimeout(
+    function()
+    {
+      location.reload();
+    }, 1000);
 }
+function doNothing() {
 
+}
 function filtermark(){
         $.ajax({
             type: 'POST',
@@ -196,7 +200,6 @@ function filtermark(){
   initDataTable('basic-datatable');
     
  function singleupdate(student) {
-        
             var class_id = '<?php echo $class_id; ?>';
             var section_id = '<?php echo $section_id; ?>';
             var student_image = $('#student_image' + student).val(); 
@@ -211,7 +214,6 @@ function filtermark(){
             var email = $('#email' + student).val(); 
             var phone = $('#phone' + student).val(); 
             var address = $('#address' + student).val(); 
-
                 $.ajax({
                     type : 'POST',
                     url : '<?php echo route('student/singleupdate'); ?>',
